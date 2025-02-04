@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AOL Chat Room</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1f1f2e;
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        #chat-container {
+            width: 60%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #2c2c3c;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+        }
+
+        #chat-header {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #3949ab;
+            color: #fff;
+            border-radius: 5px;
+        }
+
+        #messages {
+            height: 300px;
+            overflow-y: auto;
+            background-color: #333344;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: left;
+        }
+
+        .message {
+            padding: 8px;
+            margin: 5px;
+            border-radius: 5px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background-color: #00bcd4;
+            text-align: right;
+            color: white;
+        }
+
+        .other-message {
+            background-color: #ffca28;
+            color: black;
+        }
+
+        #message-input {
+            width: 60%;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin-top: 10px;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #e91e63;
+        }
+
+        #emoji-picker {
+            display: none;
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #222;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+            max-width: 200px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .emoji {
+            font-size: 20px;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .emoji:hover {
+            background-color: #333;
+            border-radius: 5px;
+        }
+
+        select {
+            padding: 5px;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="chat-container">
+        <div id="chat-header">Y2K Chat Room - <span id="room-name"></span></div>
+
+        <select id="room-list" onchange="switchRoom()">
+            <option value="">Select a Room</option>
+        </select>
+
+        <div id="messages"></div>
+
+        <div>
+            <input type="text" id="message-input" placeholder="Type your message..." />
+            <select id="text-style">
+                <option value="normal">Normal</option>
+                <option value="bold">Bold</option>
+                <option value="italic">Italic</option>
+                <option value="red">Red Text</option>
+            </select>
+            <button onclick="toggleEmojiPicker()">😀</button>
+            <button onclick="sendMessage()">Send</button>
+        </div>
+
+        <div id="emoji-picker">
+            <span class="emoji" onclick="addEmoji('😀')">😀</span>
+            <span class="emoji" onclick="addEmoji('😂')">😂</span>
+            <span class="emoji" onclick="addEmoji('😎')">😎</span>
+            <span class="emoji" onclick="addEmoji('😍')">😍</span>
+            <span class="emoji" onclick="addEmoji('🔥')">🔥</span>
+            <span class="emoji" onclick="addEmoji('👍')">👍</span>
+            <span class="emoji" onclick="addEmoji('💯')">💯</span>
+            <span class="emoji" onclick="addEmoji('🚀')">🚀</span>
+        </div>
+    </div>
+
+    <script>
+        const socket = io.connect("http://127.0.0.1:5000");
+        const username = new URLSearchParams(window.location.search).get("username");
+        const room = new URLSearchParams(window.location.search).get("room");
+
+        document.getElementById("room-name").innerText = room;
+
+        socket.emit("join_room", { username, room });
+        socket.emit("get_rooms");
+
+        let currentRoom = room; // ✅ Set the initial room
+
+        function switchRoom() {
+            let newRoom = document.getElementById("room-list").value;
+
+            if (newRoom && newRoom !== currentRoom) {
+                console.log(`Switching from ${currentRoom} to ${newRoom}`);
+
+                socket.emit("leave_room", { username, room: currentRoom });
+                currentRoom = newRoom; // ✅ Update BEFORE joining new room
+                socket.emit("join_room", { username, room: newRoom });
+
+                document.getElementById("room-name").innerText = newRoom;
+            }
+        }
+
+        // ✅ Request active rooms immediately when the user connects
+        socket.on("connect", () => {
+            socket.emit("get_rooms");
+        });
+
+        // ✅ Dynamically update room list
+        socket.on("update_rooms", (rooms) => {
+            let dropdown = document.getElementById("room-list");
+            dropdown.innerHTML = `<option value="">Select a Room</option>`;
+
+            rooms.forEach(room => {
+                let option = document.createElement("option");
+                option.value = room;
+                option.textContent = room;
+                dropdown.appendChild(option);
+            });
+        });
+
+        // ✅ Ensure the dropdown refreshes if new rooms appear
+        setInterval(() => {
+            socket.emit("get_rooms");
+        }, 5000); // Poll rooms every 5 seconds
+
+
+                socket.on("update_rooms", (rooms) => {
+                    let dropdown = document.getElementById("room-list");
+                    dropdown.innerHTML = `<option value="">Select a Room</option>`;
+
+                    rooms.forEach(room => {
+                        let option = document.createElement("option");
+                        option.value = room;
+                        option.textContent = room;
+                        dropdown.appendChild(option);
+                    });
+                });;
+
+        socket.on("room_message", (data) => {
+            let messagesDiv = document.getElementById("messages");
+            let messageDiv = document.createElement("div");
+            messageDiv.classList.add("message");
+            
+            if (data.user === username) {
+                messageDiv.classList.add("user-message");
+            } else {
+                messageDiv.classList.add("other-message");
+            }
+
+            let textStyle = document.getElementById("text-style").value;
+            if (textStyle === "bold") messageDiv.style.fontWeight = "bold";
+            if (textStyle === "italic") messageDiv.style.fontStyle = "italic";
+            if (textStyle === "red") messageDiv.style.color = "red";
+
+            messageDiv.textContent = `${data.user}: ${data.message}`;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        });
+
+        function sendMessage() {
+            let messageInput = document.getElementById("message-input");
+            let message = messageInput.value;
+
+            if (message.trim() !== "") {
+                socket.emit("send_message", { username, room, message });
+                messageInput.value = "";
+            }
+        }
+
+        function toggleEmojiPicker() {
+            let emojiPicker = document.getElementById("emoji-picker");
+            emojiPicker.style.display = emojiPicker.style.display === "flex" ? "none" : "flex";
+        }
+
+        function addEmoji(emoji) {
+            let messageInput = document.getElementById("message-input");
+            messageInput.value += emoji;
+        }
+    </script>
+
+</body>
+</html>

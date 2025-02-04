@@ -8,7 +8,31 @@ This is a real-time chat application powered by **Flask**, **Socket.IO**, and a 
 - **Username-based chat** (users can input their name before sending messages).
 - **Live message updates** (new messages appear instantly).
 - **Lightweight frontend** (pure HTML, CSS, and vanilla JavaScript).
+# WebSocket Chat Application
 
+## NEW Features
+
+### Rooms
+- Users can join predefined rooms: General Chat, Gaming Talk, Movie Discussion, Tech Enthusiasts, and Random Fun.
+- The room selection dropdown ensures users can switch between any of the predefined rooms at any time.
+- Users receive real-time updates when others join or leave a room.
+
+### Emojis
+- A clickable emoji panel allows users to insert emojis into their messages effortlessly.
+- The emoji selection enhances chat interactions, making conversations more engaging and expressive.
+
+### Text Effects
+- Users can customize their messages with text effects like bold, italic, and color changes.
+- A simple dropdown menu enables users to apply styles to their text before sending messages.
+
+## Setup & Installation
+(Include your existing setup instructions here)
+
+## Usage
+(Include your existing usage instructions here)
+
+## License
+(Include license details here)
 ## 🛠️ Technologies Used
 - **Backend**: Flask, Flask-SocketIO
 - **Frontend**: HTML, CSS, JavaScript

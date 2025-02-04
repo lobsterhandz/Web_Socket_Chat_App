@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AOL Chat - Select Room</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1f1f2e;
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #room-container {
+            background-color: #2c2c3c;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+            width: 40%;
+            min-width: 300px;
+        }
+
+        h1 {
+            color: #ffca28;
+            margin-bottom: 10px;
+        }
+
+        select {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        button {
+            width: 85%;
+            padding: 10px;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #e91e63;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="room-container">
+        <h1>Choose a Chat Room</h1>
+        <p>Welcome, <span id="username-display"></span>!</p>
+        
+        <select id="chat-room">
+            <option value="general">💬 General Chat</option>
+            <option value="gaming">🎮 Gaming Talk</option>
+            <option value="movies">🎬 Movie Discussion</option>
+            <option value="tech">💻 Tech Enthusiasts</option>
+            <option value="random">🎲 Random Fun</option>
+        </select>
+        
+        <button onclick="joinChatRoom()">Join Room</button>
+    </div>
+
+    <script>
+        // Retrieve username from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const username = urlParams.get("username");
+
+        if (!username) {
+            alert("No username provided! Redirecting to login.");
+            window.location.href = "/";
+        } else {
+            document.getElementById("username-display").innerText = username;
+        }
+
+        function joinChatRoom() {
+            let room = document.getElementById("chat-room").value;
+            window.location.href = `/chat?username=${username}&room=${room}`;
+        }
+    </script>
+
+</body>
+</html>
