@@ -11,6 +11,7 @@ To ensure the reliability of the project, we have implemented a CI/CD pipeline u
 - **Live message updates** (new messages appear instantly).
 - **Lightweight frontend** (pure HTML, CSS, and vanilla JavaScript).
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 # WebSocket Chat Application
 
 =======
@@ -19,6 +20,13 @@ To ensure the reliability of the project, we have implemented a CI/CD pipeline u
 - **Text Effects & Emojis**: Users can format messages and use emojis.
 - **CI/CD Pipeline**: Automated testing and validation before deployment.
 
+=======
+- **WebSocket Communication**: Real-time messaging using Flask-SocketIO.
+- **Chat Rooms**: Users can join different rooms and send messages.
+- **Text Effects & Emojis**: Users can format messages and use emojis.
+- **CI/CD Pipeline**: Automated testing and validation before deployment.
+
+>>>>>>> Stashed changes
 ## Running the Project
 ### **1. Installation**
 Ensure you have Python and dependencies installed:
@@ -79,6 +87,9 @@ Once merged into `main`, the application can be deployed manually or via automat
 
 # WebSocket Chat Application
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 ## NEW Features
 
@@ -95,6 +106,7 @@ Once merged into `main`, the application can be deployed manually or via automat
 - Users can customize their messages with text effects like bold, italic, and color changes.
 - A simple dropdown menu enables users to apply styles to their text before sending messages.
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 ## Setup & Installation
 (Include your existing setup instructions here)
@@ -109,6 +121,8 @@ Once merged into `main`, the application can be deployed manually or via automat
 - **Frontend**: HTML, CSS, JavaScript
 - **WebSockets**: Socket.IO
 - **Tools**: Postman (for WebSocket testing)
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 
