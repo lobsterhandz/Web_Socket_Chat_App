@@ -2,14 +2,84 @@
 
 ## 📌 Overview
 This is a real-time chat application powered by **Flask**, **Socket.IO**, and a simple frontend using **HTML, CSS, and JavaScript**. It enables users to send and receive messages instantly using WebSockets.
+# WebSocket Chat App - CI/CD with GitHub Actions
+To ensure the reliability of the project, we have implemented a CI/CD pipeline using GitHub Actions. The pipeline automates testing before merging changes into the main branch.
 
+## Features
 ## 🚀 Features
-- **Real-time messaging** with WebSockets.
 - **Username-based chat** (users can input their name before sending messages).
 - **Live message updates** (new messages appear instantly).
 - **Lightweight frontend** (pure HTML, CSS, and vanilla JavaScript).
+<<<<<<< Updated upstream
 # WebSocket Chat Application
 
+=======
+- **WebSocket Communication**: Real-time messaging using Flask-SocketIO.
+- **Chat Rooms**: Users can join different rooms and send messages.
+- **Text Effects & Emojis**: Users can format messages and use emojis.
+- **CI/CD Pipeline**: Automated testing and validation before deployment.
+
+## Running the Project
+### **1. Installation**
+Ensure you have Python and dependencies installed:
+```sh
+pip install -r requirements.txt
+```
+
+### **2. Starting the WebSocket Server**
+Run the server:
+```sh
+python app.py
+```
+Access the chat at:
+```
+http://127.0.0.1:5000/
+```
+
+### **3. Running Tests Locally**
+To verify the integrity of the helper functions, run:
+```sh
+python -m unittest discover -s . -p "test_utils.py"
+```
+
+## CI/CD Pipeline (GitHub Actions)
+### **Workflow Process**
+- **Feature Branch (`feature/tests`)**: Runs automated tests before merging into `main`.
+- **Tests Included:**
+  - `sum_numbers()` (validates positive & negative sums)
+  - `is_palindrome()` (checks for palindromes)
+  - `factorial()` (ensures correct factorial calculation & raises errors on negatives)
+  - `is_even()` (checks if a number is even)
+
+### **Workflow Configuration (`.github/workflows/main.yml`)**
+The CI/CD pipeline is triggered on:
+- **Push to `feature/tests` branch**
+- **Pull requests to `main` branch**
+
+### **Running Tests in CI/CD**
+1. GitHub automatically runs the tests when pushing changes to `feature/tests`.
+2. If all tests pass, the branch is safe to merge into `main`.
+3. If tests fail, the workflow prevents broken code from being deployed.
+
+### **Deployment**
+Once merged into `main`, the application can be deployed manually or via automated deployment steps added to the pipeline.
+
+## Contributing
+1. **Fork the repository**.
+2. **Create a feature branch** (`feature/new-feature`).
+3. **Commit and push changes**.
+4. **Create a pull request (PR)**.
+5. **Ensure tests pass before merging**.
+
+## Future Enhancements
+- **User Authentication**: Implement user accounts & authentication.
+- **Database Integration**: Store chat messages persistently.
+- **UI Improvements**: Enhance frontend UI with React.
+
+
+# WebSocket Chat Application
+
+>>>>>>> Stashed changes
 ## NEW Features
 
 ### Rooms
@@ -24,6 +94,7 @@ This is a real-time chat application powered by **Flask**, **Socket.IO**, and a 
 ### Text Effects
 - Users can customize their messages with text effects like bold, italic, and color changes.
 - A simple dropdown menu enables users to apply styles to their text before sending messages.
+<<<<<<< Updated upstream
 
 ## Setup & Installation
 (Include your existing setup instructions here)
@@ -38,6 +109,8 @@ This is a real-time chat application powered by **Flask**, **Socket.IO**, and a 
 - **Frontend**: HTML, CSS, JavaScript
 - **WebSockets**: Socket.IO
 - **Tools**: Postman (for WebSocket testing)
+=======
+>>>>>>> Stashed changes
 
 ## 👤 Project Structure
 ```
@@ -48,6 +121,8 @@ This is a real-time chat application powered by **Flask**, **Socket.IO**, and a 
 │── web_socket_server.py        # WebSocket server setup
 │── requirements.txt            # Dependencies for the project
 │── README.md                   # Project documentation
+│── utils.py                    # Collection Utility functions
+│── test_utils.py               # Test for integration of utils
 ```
 
 ## ⚡ Installation & Setup
@@ -106,6 +181,11 @@ To test WebSocket connections in **Postman**:
 
 ## ✨ License
 This project is open-source and available under the **MIT License**.
+## 🛠️ Technologies Used
+- **Backend**: Flask, Flask-SocketIO
+- **Frontend**: HTML, CSS, JavaScript
+- **WebSockets**: Socket.IO
+- **Tools**: Postman (for WebSocket testing)
 
 ---
 
